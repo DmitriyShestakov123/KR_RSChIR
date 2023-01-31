@@ -26,9 +26,34 @@
     $mysqli->close();
 }
 
+function makeOwnResults() {
+    $flag = false;
+    $mysqli = new mysqli("db", "user", "password", "appDB");
+    $mysqli->set_charset("utf-8");
+    $author = $_SESSION['name'];
+    $result = $mysqli->query("SELECT * FROM survey_questions WHERE creator='$author'");
+    $curSurvey = 0;
+    foreach ($result as $row) {
+        echo "<br>";
+        if ($row['idSurvey'] != $curSurvey) {
+            if ($flag)
+                echo "</div></div>";
+            $flag = true;
+            echo "<div>";
+            echo "<h1 class='survey'>{$row['surveyName']}</h1>";
+            echo "<button class='interaction' id=$curSurvey onclick='myFunction(this.id)'>Показать/скрыть</button>";
+            echo "<div id=$curSurvey style='display: none;'>";
+            $curSurvey += 1;
+        }
+        echo "<p>{$row['questionBody']}</p>";
+        getAnswers($row['idQuestion']);
+    }
+    $mysqli->close();
+}
 
 function makeResults()
 {
+    $flag = false;
     $mysqli = new mysqli("db", "user", "password", "appDB");
     $mysqli->set_charset("utf-8");
     $result = $mysqli->query("SELECT * FROM survey_questions");
@@ -36,10 +61,13 @@ function makeResults()
     foreach ($result as $row) {
         echo "<br>";
         if ($row['idSurvey'] != $curSurvey) {
-            echo "</div>";
+            if ($flag)
+                echo "</div></div>";
+            $flag = true;
+            echo "<div>";
             echo "<h1 class='survey'>{$row['surveyName']}</h1>";
             echo "<button class='interaction' id=$curSurvey onclick='myFunction(this.id)'>Показать/скрыть</button>";
-            echo "<div id=$curSurvey>";
+            echo "<div id=$curSurvey style='display: none;'>";
             $curSurvey += 1;
         }
         echo "<p>{$row['questionBody']}</p>";
@@ -139,5 +167,38 @@ function showSurvey($id)
         echo "<script> location.href='main.php'; </script>";
     }
 
+}
+function addSurvey() {
+    if(isset($_POST["make-survey-btn"])) {
+        if($_POST['surveyName']) {
+            $questions = [];
+            for ($i = 0; $i < 100; $i++ ) {
+                if ($_POST[(string)$i]) {
+                    //echo $_POST[(string)$i] . "<br>";
+                    array_push($questions, $_POST[(string)$i]);
+                }
+            }
+            if($questions[0]) {
+                $mysqli = new mysqli("db", "user", "password", "appDB");
+                $lastId = $mysqli->query("SELECT idSurvey FROM survey_questions ORDER BY idSurvey DESC LIMIT 1");
+                foreach($lastId as $row) {
+                    //var_dump($row);
+                    $id = (int)$row['idSurvey'] + 1;
+                    //echo $id;
+                }
+                foreach ($questions as $question) {
+                    echo $question;
+                    $stmt = $mysqli->prepare("INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (?, ?, ?, ?)");
+                    $stmt->bind_param('siss', $_POST['surveyName'], $id, $question, $_SESSION['name']);
+                    $stmt->execute();
+                    $stmt = $mysqli->query("INSERT INTO survey_answers(idSurvey, idQuestion) VALUES ($id, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));");
+                }
+                $mysqli->close();
+            }
+        }
+        else {
+            echo "<script>alert('Введите название опроса')</script>";
+        }
+    }
 }
 ?>

@@ -55,6 +55,14 @@ body {
 .navtop div a:hover {
 	color: #eaebed;
 }
+.back-btn {
+    background-color: #ffffff;
+    width: 100px;
+    height: 30px;
+    border-radius:0;
+    font-size: medium;
+    font-weight: 500;
+}
 .container2 {
     align-items: center;
     justify-content: center;
@@ -64,7 +72,7 @@ body {
     width: 400px;
     background-color: #ffffff;
     box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
-    margin: 100px auto;
+    margin: 0 0 100px 0;
 }
 .login h1 {
     text-align: center;
@@ -253,4 +261,21 @@ button {
 .question input[type="submit"]:active {
     transform: translate(0px, 1px);
     transition: 100ms;
+}
+
+/* ---- Survey Create ---- */
+.input-group {
+    margin: 1rem 0 1rem 0;
+}
+.btn {
+    background-color: #4073e0;
+    width: 150px;
+    height: 45px;
+}
+.div-submit {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
 }

@@ -51,7 +51,6 @@ function session()
             echo '<script>alert("Пароли не совпадают")</script>';
         } else if ($oldPassword === $password && $newPasswordConfirm === $newPassword) {
             $stmt = $con->prepare("UPDATE users SET passwords=? WHERE username=?");
-            echo $stmt;
             $stmt->bind_param('ss', $_POST['new_passwd'], $username);
             $stmt->execute();
         }

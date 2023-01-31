@@ -1,4 +1,5 @@
 <?php
+error_reporting(-1);
 require('utils/logging.php');
 logging();
 ?>
@@ -19,12 +20,13 @@ logging();
             <div class="login">
                 <form method = "post">
                     <div class="form-input">
-                        <input type="text" name="usname" placeholder="Username"/>	
+                        <input type="text" name="usname" placeholder="Логин"/>	
                     </div>
                     <div class="form-input">
-                        <input type="Password" name="paswd" placeholder="Password"/>
+                        <input type="Password" name="paswd" placeholder="Пароль"/>
                     </div>
-                    <input type="submit" value="LOGIN" class="btn-login" name ="login-btn"/>
+                    <input type="submit" value="ЛОГИН" class="btn-login" name ="login-btn"/>
+                    <input type="submit" value="РЕГИСТРАЦИЯ" class="btn-login" name="register-btn"/>
                 </form>
             </div>
         </div>

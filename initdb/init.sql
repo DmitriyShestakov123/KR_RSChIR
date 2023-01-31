@@ -8,7 +8,7 @@ USE appDB;
 ALTER DATABASE appDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS accounts(
 	acc_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  	username VARCHAR(50) NOT NULL,
+  	username VARCHAR(50) NOT NULL UNIQUE,
   	passwords VARCHAR(50) NOT NULL,
   	email VARCHAR(100) NOT NULL,
     administrator TINYINT(1)
@@ -23,9 +23,11 @@ INSERT INTO accounts (username, passwords, email) VALUES ('user2', 'admin', 'add
 CREATE TABLE IF NOT EXISTS survey_questions(
     surveyName VARCHAR(100),
     idSurvey INTEGER,
+    creator VARCHAR(50) NOT NULL,
     idQuestion INTEGER AUTO_INCREMENT,
     questionBody VARCHAR(100),
-    PRIMARY KEY(idQuestion)
+    PRIMARY KEY(idQuestion),
+    FOREIGN KEY (creator) REFERENCES accounts(username) 
 );
 CREATE TABLE IF NOT EXISTS survey_answers(
     idSurvey INTEGER,
@@ -44,29 +46,29 @@ CREATE TABLE IF NOT EXISTS completed_surveys(
     surveyName VARCHAR(100)
 );
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Оценка работы учебного коллектива', 1, N'Насколько вы оцениваете общую подготовку?');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Оценка работы учебного коллектива', 1, N'Насколько вы оцениваете общую подготовку?', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (1, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Оценка работы учебного коллектива', 1, N'Насколько вы оцениваете что-нибудь?');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Оценка работы учебного коллектива', 1, N'Насколько вы оцениваете что-нибудь?', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (1, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Оценка работы учебного коллектива', 1, N'Оцените качество обучения');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Оценка работы учебного коллектива', 1, N'Оцените качество обучения', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (1, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Оценка работы учебного коллектива', 1, N'Оцените техническое обеспечение обучения');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Оценка работы учебного коллектива', 1, N'Оцените техническое обеспечение обучения', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (1, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Оценка работы учебного коллектива', 1, N'Оцените материальное обеспечение обучения');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Оценка работы учебного коллектива', 1, N'Оцените материальное обеспечение обучения', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (1, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Оцените', 2, N'Оцените');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Оцените', 2, N'Оцените', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (2, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Оцените', 2, N'Оцените другое');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Оцените', 2, N'Оцените другое', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (2, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Форма для заполнения', 3, N'Насколько вы были довольны сервисом?');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Форма для заполнения', 3, N'Насколько вы были довольны сервисом?', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (3, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));
 
-INSERT INTO survey_questions(surveyName, idSurvey, questionBody) VALUES (N'Форма для заполнения', 3, N'Каковы ваши общие впечатления?');
+INSERT INTO survey_questions(surveyName, idSurvey, questionBody, creator) VALUES (N'Форма для заполнения', 3, N'Каковы ваши общие впечатления?', 'admin');
 INSERT INTO survey_answers(idSurvey, idQuestion) VALUES (3, (SELECT idQuestion FROM survey_questions ORDER BY idQuestion DESC LIMIT 1));

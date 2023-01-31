@@ -59,6 +59,9 @@ session();
 			</form>
 
 		</div>
+		<div class="create-survey">
+			<a href="createsurvey.php"><button>Создать опрос</button></a>
+		</div>
 		<div class='my-serveys'>
 			<?php
             function showMySurveys()
@@ -79,9 +82,15 @@ session();
             echo "<br><br>";
             ?>
 		</div>
+		<div class='my-surveys'>
+			<h1>Созданные мною</h1>
+			<?php makeOwnResults();
+			echo "</div></div>";
+			?>
+		</div>
 		<?php
         if (getStatus() == 'Администратор') {
-	        echo "<div class='surveys'>";
+	        echo "<div class='my-surveys'>";
 	        echo "<h1>Результаты опросов</h1>";
 	        makeResults();
 	        echo "</div>";

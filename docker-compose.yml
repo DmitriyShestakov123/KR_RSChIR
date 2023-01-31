@@ -27,3 +27,15 @@ services:
       - "3307:3306"
     volumes:
       - "./initdb:/docker-entrypoint-initdb.d"
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8000:80
+    environment:
+      - VIRTUAL_HOST=phpmyadmin.local
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    depends_on:
+      - db

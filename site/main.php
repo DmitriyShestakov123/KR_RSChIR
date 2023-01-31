@@ -29,6 +29,6 @@ session();
         <? showPreview();?>
     </div>
     <footer>
-        <p>© 2022 Servey Service</p>
+        <p>© 2022 Survey Service</p>
     </footer>
 </body>

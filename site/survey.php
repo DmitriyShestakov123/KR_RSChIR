@@ -36,5 +36,4 @@ session();
 		<p>© 2022 Servey Service</p>
 	</footer>
 </body>
-<?php
-?>
+</html>
